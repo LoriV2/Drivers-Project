@@ -2,6 +2,12 @@ var c;
 var cc;
 var ccc;
 
+var options = {
+    valueNames: ['nome']
+};
+
+var FirmList = new List('firms', options);
+
 function focuss(x) {
     c = x.placeholder;
     x.placeholder = "";
