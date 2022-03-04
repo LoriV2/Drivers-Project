@@ -15,7 +15,7 @@
 
 <body>
 
-<!-- This div is import for list.js work-->
+<!-- This div is important for list.js work-->
     <div id='firms'>
         <!-- input to search trought website-->
         <input type="select" id='searchinput' class="search" placeholder="Pesquisa, categoria, nome" onfocus="focuss(this)" onblur="blurr(this)">
@@ -104,7 +104,7 @@
         </table>
         <!-- Table where the results are shown-->
     </div>
-<!-- This div is import for list.js work-->
+<!-- This div is important for list.js work-->
 
     <!-- List.js (it helps to search on the website modifying table in realtime )-->
     <script src="list.js"></script>
