@@ -57,6 +57,7 @@ function Category(ategory) {
     });
 
     input.dispatchEvent(ev);
+    document.getElementById('searchinput').blur();
 }
 //functions for search input
 

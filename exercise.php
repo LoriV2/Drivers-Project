@@ -1,3 +1,14 @@
+<?php
+//I changed it because the webpage showed errors with wrong login data
+error_reporting(E_ERROR | E_PARSE);
+//starting the session
+session_start();
+//Put there your password for people to login with it
+if ($_POST['login'] == 'password') {
+    $_SESSION['Login'] = true;
+} else $_SESSION['kfhswfh'] = true;
+
+?>
 <html>
 
 <head>
@@ -15,10 +26,16 @@
 
 <body>
 
-<!-- This div is important for list.js work-->
+    <!-- This div is important for list.js work-->
     <div id='firms'>
+        <?php if ($_SESSION['Login'] != true) {
+            echo '<a href = "login.php"><button style="position:relative" class="btn" type="button" data-toggle="collapse" data-target="#login" aria-expanded="false" aria-controls="collapseExample">
+            Login
+        </button></a>';
+        }
+        ?>
         <!-- input to search trought website-->
-        <input type="select" id='searchinput' class="search" placeholder="Pesquisa, categoria, nome" onfocus="focuss(this)" onblur="blurr(this)">
+        <input type="text" id='searchinput' class="search" placeholder="Pesquisa, categoria, nome" onfocus="focuss(this)" onblur="blurr(this)">
         <!-- input to search trought website-->
         <!-- Categories -->
         <button style='position:relative' class="btn" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="collapseExample">
@@ -76,27 +93,30 @@
 
             <tbody class='list'>
                 <?php
-                $conn = mysqli_connect(
-                    'localhost',
-                    'root',
-                    '',
-                    'drivers project'
-                );
-                $querry = "SELECT * FROM companies_contacts ";
-                $result = mysqli_query($conn, $querry);
-                // 'n' is the special id that is asigned to the morada and maps 
-                $n = 0;
-                //Loop to show all of the sql tables
-                while ($row = mysqli_fetch_array($result)) {
-                    echo "<tr>" .
-                        "<td class = 'categoria'>" . htmlspecialchars($row['Categoria']) . "</td>" .
-                        "<td class = 'nome'>" . htmlspecialchars($row['NOME']) . "</td>" .
-                        "<td id = '$n'>" . htmlspecialchars($row['MORADA']) . "</td>";
-                    $n = $n + 1;
-                    echo "<td><button id = '$n' onclick='Mapy(this)'>MAPS</button> </td>
+                //checking the session
+                if ($_SESSION['Login'] == true) {
+                    $conn = mysqli_connect(
+                        'localhost',
+                        'root',
+                        '',
+                        'drivers project'
+                    );
+                    $querry = "SELECT * FROM companies_contacts ";
+                    $result = mysqli_query($conn, $querry);
+                    // 'n' is the special id that is asigned to the morada and maps 
+                    $n = 0;
+                    //Loop to show all of the sql tables
+                    while ($row = mysqli_fetch_array($result)) {
+                        echo "<tr>" .
+                            "<td class = 'categoria'>" . htmlspecialchars($row['Categoria']) . "</td>" .
+                            "<td class = 'nome'>" . htmlspecialchars($row['NOME']) . "</td>" .
+                            "<td id = '$n'>" . htmlspecialchars($row['MORADA']) . "</td>";
+                        $n = $n + 1;
+                        echo "<td><button id = '$n' class = 'btn' onclick='Mapy(this)'>MAPS</button> </td>
                     </tr>";
-                    $n = $n + 1;
-                }
+                        $n = $n + 1;
+                    }
+                } else echo "<p>please login to see informations</p>";
 
 
                 ?>
@@ -104,7 +124,7 @@
         </table>
         <!-- Table where the results are shown-->
     </div>
-<!-- This div is important for list.js work-->
+    <!-- This div is important for list.js work-->
 
     <!-- List.js (it helps to search on the website modifying table in realtime )-->
     <script src="list.js"></script>
@@ -117,3 +137,6 @@
 </body>
 
 </html>
+<?php
+session_unset();
+?>
